@@ -1,0 +1,28 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: notification-service
+    
+  config:
+      import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888}
+      
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+
+  cloud:
+    function:
+      definition: notification
+    stream:
+      bindings:
+        notification-in-0:
+          destination: orders
+          group: notification-group
+          content-type: application/json
+          consumer:
+            auto-startup: true
+ 

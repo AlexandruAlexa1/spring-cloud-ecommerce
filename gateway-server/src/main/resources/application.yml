@@ -1,0 +1,85 @@
+server:
+  port: 8080
+  
+spring:
+  application:
+    name: gateway-server
+
+  cloud:
+    gateway:
+      server:
+        webflux:
+          discovery:
+            locator:
+              enabled: true
+              lower-case-service-id: true
+          routes:
+            - id: product-service
+              uri: lb://product-service
+              predicates:
+                - Path=/products/**
+              filters:
+              - name: CircuitBreaker
+                args:
+                  name: productCircuitBreaker
+                  fallbackUri: forward:/fallback/product
+              - name: RequestRateLimiter
+                args:
+                  redis-rate-limiter:
+                    replenishRate: 1
+                    burstCapacity: 2
+                  key-resolver: "#{@ipKeyResolver}"
+              
+            - id: order-service
+              uri: lb://order-service
+              predicates:
+                - Path=/orders/**
+              filters:
+              - name: CircuitBreaker
+                args:
+                  name: orderCircuitBreaker
+                  fallbackUri: forward:/fallback/order
+              - name: RequestRateLimiter
+                args:
+                  redis-rate-limiter:
+                    replenishRate: 1
+                    burstCapacity: 2
+                  key-resolver: "#{@ipKeyResolver}"
+                
+            - id: notification-service
+              uri: lb://notification-service
+              predicates:
+                - Path=/notifications/**
+              filters:
+              - name: CircuitBreaker
+                args:
+                  name: notificationCircuitBreaker
+                  fallbackUri: forward:/fallback/notification  
+              - name: RequestRateLimiter
+                args:
+                  redis-rate-limiter:
+                    replenishRate: 1
+                    burstCapacity: 2
+                  key-resolver: "#{@ipKeyResolver}"
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+            
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka}
+  instance:
+    ip-address: true
+    
+management:
+  zipkin:
+    tracing:
+      endpoint: ${ZIPKIN_URL:http://localhost:9411/api/v2/spans}
+  tracing:
+    sampling:
+      probability: 1.0
+    

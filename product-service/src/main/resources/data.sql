@@ -1,0 +1,15 @@
+INSERT INTO products (id, name, price, stock) VALUES (1, 'Smartphone', 699.99, 120);
+INSERT INTO products (id, name, price, stock) VALUES (2, 'Laptop', 1099.00, 75);
+INSERT INTO products (id, name, price, stock) VALUES (3, 'Wireless Mouse', 29.99, 300);
+INSERT INTO products (id, name, price, stock) VALUES (4, 'Mechanical Keyboard', 89.50, 150);
+INSERT INTO products (id, name, price, stock) VALUES (5, 'Monitor 27 inch', 249.99, 60);
+INSERT INTO products (id, name, price, stock) VALUES (6, 'USB-C Charger', 19.99, 500);
+INSERT INTO products (id, name, price, stock) VALUES (7, 'Bluetooth Headphones', 129.00, 90);
+INSERT INTO products (id, name, price, stock) VALUES (8, 'External SSD 1TB', 139.99, 80);
+INSERT INTO products (id, name, price, stock) VALUES (9, 'Smartwatch', 199.99, 110);
+INSERT INTO products (id, name, price, stock) VALUES (10, 'Gaming Chair', 299.99, 30);
+INSERT INTO products (id, name, price, stock) VALUES (11, 'Webcam 1080p', 59.99, 150);
+INSERT INTO products (id, name, price, stock) VALUES (12, 'Portable Speaker', 79.99, 100);
+INSERT INTO products (id, name, price, stock) VALUES (13, 'Desk Lamp with USB', 34.90, 200);
+INSERT INTO products (id, name, price, stock) VALUES (14, 'Ergonomic Mouse Pad', 12.99, 400);
+INSERT INTO products (id, name, price, stock) VALUES (15, 'Wi-Fi Router Dual Band', 89.99, 50);

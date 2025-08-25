@@ -1,0 +1,29 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: order-service
+
+  config:
+    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888}
+  
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+
+    stream:
+      default-binder: rabbit
+      bindings:
+        order-out-0:
+          destination: orders
+          content-type: application/json
+          producer:
+            autoStartup: true       

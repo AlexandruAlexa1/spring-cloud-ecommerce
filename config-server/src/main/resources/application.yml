@@ -1,0 +1,52 @@
+server:
+  port: 8888
+  
+spring:
+  application:
+    name: config-server
+  main:
+    allow-bean-definition-overriding: true
+    
+  profiles:
+    active: composite
+  
+  cloud:
+    config:
+      server:
+        composite:
+          - type: git
+            uri: https://github.com/AlexandruAlexa1/ecommerce-config.git
+            default-label: main
+            order: 1
+            
+          - type: vault
+            host: ${VAULT_HOST:localhost}
+            port: ${VAULT_PORT:8200}
+            kv-version: 2
+            order: 2
+        vault:
+          token: root
+        
+    bus:
+      enabled: false
+      refresh:
+        enabled: false
+        
+    vault:
+      token: root
+      host: vault
+      scheme: http
+       
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:guest}
+    password: ${RABBITMQ_PASS:guest}
+        
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - bus-refresh
